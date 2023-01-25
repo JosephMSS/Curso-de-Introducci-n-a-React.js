@@ -1,4 +1,3 @@
-import { Children } from "react";
 import { CreateTodoButton } from "./CreateTodoButtom";
 import { TodoCounter } from "./TodoCounter";
 import { TodoItem } from "./TodoItem";
@@ -30,7 +29,7 @@ function App() {
       <TodoSearch />
       <TodoList>
         {todoList.map((todo) => {
-          return <TodoItem text={todo.text} id={todo.id} />;
+          return <TodoItem text={todo.text} id={todo.id} key={todo.id} />;
         })}
       </TodoList>
       <CreateTodoButton />

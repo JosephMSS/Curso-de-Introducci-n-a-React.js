@@ -1,8 +1,15 @@
 import React from "react";
 export function TodoItem(props) {
+  const onComplete = (event) => {
+    event.preventDefault;
+    alert("Todo Completado!");
+  };
+  const onDelete = (event) => {
+    event.preventDefault;
+    alert("Todo eliminado");
+  };
   return (
     <li
-      key={props.id}
       className="grid  grid-cols-8 my-3 
     items-center
     text-white font-poppins font-medium
@@ -12,9 +19,9 @@ export function TodoItem(props) {
     to-quaternary
     "
     >
-      <span>C</span>
+      <span onClick={onComplete}>C</span>
       <p>{props.text}</p>
-      <span>X</span>
+      <span onClick={onDelete}>X</span>
     </li>
   );
 }
