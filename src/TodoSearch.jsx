@@ -1,8 +1,9 @@
-import React from "react";
+import { useState } from "react";
 export function TodoSearch(props) {
+  const [searchValue, setSearchValue] = useState("");
   const onSearchValueChange = (event) => {
-    event.target.value;
-    
+    const { value } = event.target;
+    setSearchValue(value);
   };
   return (
     <div className="flex flex-col relative ">
@@ -18,8 +19,10 @@ export function TodoSearch(props) {
           className="ml-2 py-3 pl-2 h-full w-full rounded-lg placeholder-primary placeholder-opacity-70 focus:outline-none focus:ring focus:ring-inset focus:border-quaternary "
           type="text"
           placeholder="Cebolla"
+          value={searchValue}//React pide que los el valor del input este conectados al estado
           onChange={onSearchValueChange}
         />
+        <p>{searchValue}</p>
       </div>
     </div>
   );
