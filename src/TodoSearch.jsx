@@ -1,6 +1,4 @@
-import { useState } from "react";
-export function TodoSearch(props) {
-  const [searchValue, setSearchValue] = useState("");
+export function TodoSearch({ searchValue, setSearchValue }) {
   const onSearchValueChange = (event) => {
     const { value } = event.target;
     setSearchValue(value);
@@ -19,7 +17,7 @@ export function TodoSearch(props) {
           className="ml-2 py-3 pl-2 h-full w-full rounded-lg placeholder-primary placeholder-opacity-70 focus:outline-none focus:ring focus:ring-inset focus:border-quaternary "
           type="text"
           placeholder="Cebolla"
-          value={searchValue}//React pide que los el valor del input este conectados al estado
+          value={searchValue} //React pide que los el valor del input este conectados al estado
           onChange={onSearchValueChange}
         />
         <p>{searchValue}</p>

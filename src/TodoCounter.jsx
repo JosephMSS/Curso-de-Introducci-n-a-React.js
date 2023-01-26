@@ -1,6 +1,6 @@
 import React from "react";
 
-export function TodoCounter(props) {
+export function TodoCounter({ total, completed }) {
   return (
     <>
       <h1
@@ -14,7 +14,7 @@ export function TodoCounter(props) {
             font-poppins font-semibold
             sm:text-lg"
       >
-        Has completado 2 de 3 todos
+        Has completado {completed} de {total} todos
       </h1>
     </>
   );
