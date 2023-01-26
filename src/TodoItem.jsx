@@ -1,13 +1,5 @@
 import React from "react";
-export function TodoItem({ text, completed }) {
-  const onComplete = (event) => {
-    event.preventDefault;
-    alert("Todo Completado!");
-  };
-  const onDelete = (event) => {
-    event.preventDefault;
-    alert("Todo eliminado");
-  };
+export function TodoItem({ onComplete, onDelete, text, completed }) {
   return (
     <li
       className={`grid  grid-cols-8 my-3 

@@ -40,6 +40,20 @@ function App() {
       return todoText.includes(searchText);
     });
   }
+
+  const completeTodos = ({ id }) => {
+    const todoIndex = todos.findIndex((todo) => todo.id === id);
+    const newTodos = [...todos];
+    const todo = newTodos[todoIndex];
+    todo.completed = true;
+    setTodos(newTodos);
+  };
+  const deleteTodos = ({ id }) => {
+    const todoIndex = todos.findIndex((todo) => todo.id === id);
+    const newTodos = [...todos];
+    newTodos.splice(todoIndex, 1);
+    setTodos(newTodos);
+  };
   return (
     <>
       <TodoCounter total={totalTodos} completed={completedTodos} />
@@ -52,6 +66,12 @@ function App() {
               id={todo.id}
               completed={todo.completed}
               key={todo.id}
+              onComplete={() => {
+                completeTodos({ id: todo.id });
+              }}
+              onDelete={() => {
+                deleteTodos({ id: todo.id });
+              }}
             />
           );
         })}
