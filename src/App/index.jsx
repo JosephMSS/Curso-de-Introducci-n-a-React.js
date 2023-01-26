@@ -1,10 +1,5 @@
 import { useState } from "react";
-import { CreateTodoButton } from "./CreateTodoButtom";
-import { TodoCounter } from "./TodoCounter";
-import { TodoItem } from "./TodoItem";
-import { TodoList } from "./TodoList";
-import { TodoSearch } from "./TodoSearch";
-
+import { AppUI } from "./AppUI";
 const randomId = () => {
   return (
     Math.random().toString(36).substring(2, 15) +
@@ -55,29 +50,15 @@ function App() {
     setTodos(newTodos);
   };
   return (
-    <>
-      <TodoCounter total={totalTodos} completed={completedTodos} />
-      <TodoSearch searchValue={searchValue} setSearchValue={setSearchValue} />
-      <TodoList>
-        {searchedTodos.map((todo) => {
-          return (
-            <TodoItem
-              text={todo.text}
-              id={todo.id}
-              completed={todo.completed}
-              key={todo.id}
-              onComplete={() => {
-                completeTodos({ id: todo.id });
-              }}
-              onDelete={() => {
-                deleteTodos({ id: todo.id });
-              }}
-            />
-          );
-        })}
-      </TodoList>
-      <CreateTodoButton />
-    </>
+    <AppUI
+      totalTodos={totalTodos}
+      completedTodos={completedTodos}
+      searchValue={searchValue}
+      setSearchValue={setSearchValue}
+      searchedTodos={searchedTodos}
+      completeTodos={completeTodos}
+      deleteTodos={deleteTodos}
+    />
   );
 }
 
