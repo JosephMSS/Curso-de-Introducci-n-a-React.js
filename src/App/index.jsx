@@ -19,14 +19,23 @@ const defaultTodoList = [
   createTodo({ text: "Dormir", completed: true }),
 ];
 function App() {
+  const localStorageTodos = localStorage.getItem("TODOS_V1");
+  let parsedTodos;
+  if (!localStorageTodos) {
+    parsedTodos = [];
+    localStorage.setItem("TODOS_V1", JSON.stringify(parsedTodos));
+  } else {
+    parsedTodos = JSON.parse(localStorageTodos);
+  }
   const [searchValue, setSearchValue] = useState("");
-  const [todos, setTodos] = useState(defaultTodoList);
+  const [todos, setTodos] = useState(parsedTodos);
 
   const completedTodos = todos.filter((todo) => !!todo.completed).length;
   const totalTodos = todos.length;
 
   let searchedTodos = [];
-  if (!searchValue.length >= 1) {
+  const searchValueIsEmpty = !searchValue.length >= 1;
+  if (searchValueIsEmpty) {
     searchedTodos = todos;
   } else {
     searchedTodos = todos.filter((todo) => {
@@ -36,12 +45,17 @@ function App() {
     });
   }
 
+  const saveTodos = (newTodoList) => {
+    const stringifiedTodos = JSON.stringify(newTodoList);
+    localStorage.setItem("TODOS_V1", stringifiedTodos);
+    setTodos(newTodoList);
+  };
   const completeTodos = ({ id }) => {
     const todoIndex = todos.findIndex((todo) => todo.id === id);
     const newTodos = [...todos];
     const todo = newTodos[todoIndex];
-    todo.completed = true;
-    setTodos(newTodos);
+    todo.completed = !todo.completed;
+    saveTodos(newTodos);
   };
   const deleteTodos = ({ id }) => {
     const todoIndex = todos.findIndex((todo) => todo.id === id);
