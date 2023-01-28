@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { AppUI } from "./AppUI";
 const randomId = () => {
   return (
@@ -19,25 +19,55 @@ const defaultTodoList = [
   createTodo({ text: "Dormir", completed: true }),
 ];
 function useLocalStorage({ itemName, initialValue }) {
-  const localStorageItem = localStorage.getItem(itemName);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
+  const [item, setItem] = useState(initialValue);
   let parsedItem;
-  if (!localStorageItem) {
-    parsedItem = initialValue;
-    localStorage.setItem(itemName, JSON.stringify(parsedItem));
-  } else {
-    parsedItem = JSON.parse(localStorageItem);
-  }
-  const [item, setItem] = useState(parsedItem);
-  const saveItem = (newItemList) => {
-    const stringifiedItem = JSON.stringify(newItemList);
-    localStorage.setItem(itemName, stringifiedItem);
-    setItem(newItemList);
-  };
 
-  return [item, saveItem];
+  useEffect(() => {
+    const localStorageItem = localStorage.getItem(itemName);
+    setTimeout(() => {
+      try {
+        if (!localStorageItem) {
+          parsedItem = initialValue;
+          localStorage.setItem(itemName, JSON.stringify(parsedItem));
+        } else {
+          parsedItem = JSON.parse(localStorageItem);
+        }
+        // throw new Error("c murio");
+        setItem(parsedItem);
+        setLoading(false);
+      } catch (error) {
+        setLoading(false);
+        setError(true);
+      }
+    }, 1000);
+  }, []);
+  /**
+   *
+   * @param {Array} newItemList
+   */
+  const saveItem = (newItemList) => {
+    try {
+      const stringifiedItem = JSON.stringify(newItemList);
+      localStorage.setItem(itemName, stringifiedItem);
+      setItem(newItemList);
+    } catch (error) {
+      setError(true);
+    }
+  };
+  /**
+   * Cuando un hook retorna mas de dos elementos, esto se retornan en un objeto y no un array
+   */
+  return { item, saveItem, loading, error };
 }
 function App() {
-  const [todos, saveTodos] = useLocalStorage({
+  const {
+    item: todos,
+    saveItem: saveTodos,
+    loading,
+    error,
+  } = useLocalStorage({
     itemName: "TODOS_V1",
     initialValue: [],
   });
@@ -69,10 +99,13 @@ function App() {
     const todoIndex = todos.findIndex((todo) => todo.id === id);
     const newTodos = [...todos];
     newTodos.splice(todoIndex, 1);
-    setTodos(newTodos);
+    saveTodos(newTodos);
   };
+
   return (
     <AppUI
+      error={error}
+      loading={loading}
       totalTodos={totalTodos}
       completedTodos={completedTodos}
       searchValue={searchValue}
