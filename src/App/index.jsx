@@ -18,17 +18,30 @@ const defaultTodoList = [
   createTodo({ text: "Estudiar" }),
   createTodo({ text: "Dormir", completed: true }),
 ];
-function App() {
-  const localStorageTodos = localStorage.getItem("TODOS_V1");
-  let parsedTodos;
-  if (!localStorageTodos) {
-    parsedTodos = [];
-    localStorage.setItem("TODOS_V1", JSON.stringify(parsedTodos));
+function useLocalStorage({ itemName, initialValue }) {
+  const localStorageItem = localStorage.getItem(itemName);
+  let parsedItem;
+  if (!localStorageItem) {
+    parsedItem = initialValue;
+    localStorage.setItem(itemName, JSON.stringify(parsedItem));
   } else {
-    parsedTodos = JSON.parse(localStorageTodos);
+    parsedItem = JSON.parse(localStorageItem);
   }
+  const [item, setItem] = useState(parsedItem);
+  const saveItem = (newItemList) => {
+    const stringifiedItem = JSON.stringify(newItemList);
+    localStorage.setItem(itemName, stringifiedItem);
+    setItem(newItemList);
+  };
+
+  return [item, saveItem];
+}
+function App() {
+  const [todos, saveTodos] = useLocalStorage({
+    itemName: "TODOS_V1",
+    initialValue: [],
+  });
   const [searchValue, setSearchValue] = useState("");
-  const [todos, setTodos] = useState(parsedTodos);
 
   const completedTodos = todos.filter((todo) => !!todo.completed).length;
   const totalTodos = todos.length;
@@ -39,17 +52,12 @@ function App() {
     searchedTodos = todos;
   } else {
     searchedTodos = todos.filter((todo) => {
-      const todoText = todo.text.toLocaleLowerCase();
-      const searchText = searchValue.toLocaleLowerCase();
+      const todoText = todo.text.toLowerCase();
+      const searchText = searchValue.toLowerCase();
       return todoText.includes(searchText);
     });
   }
 
-  const saveTodos = (newTodoList) => {
-    const stringifiedTodos = JSON.stringify(newTodoList);
-    localStorage.setItem("TODOS_V1", stringifiedTodos);
-    setTodos(newTodoList);
-  };
   const completeTodos = ({ id }) => {
     const todoIndex = todos.findIndex((todo) => todo.id === id);
     const newTodos = [...todos];
