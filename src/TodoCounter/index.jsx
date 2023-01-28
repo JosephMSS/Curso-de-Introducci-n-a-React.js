@@ -1,6 +1,10 @@
-import React from "react";
+import React, { useContext } from "react";
+import { TodoContext } from "../TodoContext";
 
-export function TodoCounter({ total, completed }) {
+export function TodoCounter() {
+  const { totalTodos: total, completedTodos: completed } =
+    useContext(TodoContext);
+
   return (
     <>
       <h1
