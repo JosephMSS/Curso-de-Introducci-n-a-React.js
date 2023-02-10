@@ -1,27 +1,31 @@
 import { useContext } from "react";
 import { CreateTodoButton } from "../CreateTodoButtom";
+import { Modal } from "../Modal";
 import { TodoContext } from "../TodoContext";
 import { TodoCounter } from "../TodoCounter";
 import { TodoItem } from "../TodoItem";
 import { TodoList } from "../TodoList";
 import { TodoSearch } from "../TodoSearch";
-export function AppUI({
-  totalTodos,
-  completedTodos,
-  searchValue,
-  setSearchValue,
-}) {
-  const { loading, error, searchedTodos, completeTodos, deleteTodos } =
-    useContext(TodoContext);
+export function AppUI() {
+  const {
+    loading,
+    error,
+    searchedTodos,
+    completeTodos,
+    deleteTodos,
+    setOpenModal,
+    openModal,
+  } = useContext(TodoContext);
 
   const todoListIsEmpty = !loading && !searchedTodos.length && !error;
   return (
     <>
       <TodoCounter />
+      <CreateTodoButton setOpenModal={setOpenModal} label="Crear Tarea" />
       <TodoSearch />
       <TodoList>
-        {error && <p>error en carga datos</p>}
-        {loading && <p>Cargando datos</p>}
+        {error && <p className="text-red-600">{error.message}</p>}
+        {loading && <p className="text-green-500">Cargando datos...</p>}
         {todoListIsEmpty && <p>Crea tu primer Todo</p>}
         {searchedTodos.map((todo) => {
           return (
@@ -40,7 +44,7 @@ export function AppUI({
           );
         })}
       </TodoList>
-      <CreateTodoButton />
+      {!!openModal && <Modal>Modal</Modal>}
     </>
   );
 }
