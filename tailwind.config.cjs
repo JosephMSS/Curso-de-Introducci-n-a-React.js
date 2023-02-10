@@ -9,6 +9,9 @@ module.exports = {
         tertiary: "#FF9B6A",
         quaternary: "#88E0EF",
       },
+      fontFamily: {
+        poppins: ['"Poppins"', "sans-serif"],
+      },
     },
   },
   plugins: [],
