@@ -1,4 +1,7 @@
 import React from "react";
+import { BiCheckCircle } from "react-icons/bi";
+import { AiOutlineEdit } from "react-icons/ai";
+import { TiDelete } from "react-icons/ti";
 export function TodoItem({ onComplete, onDelete, text, completed }) {
   return (
     <li
@@ -11,9 +14,24 @@ export function TodoItem({ onComplete, onDelete, text, completed }) {
     ${completed ? "to-quaternary" : "to-tertiary"}
     ${completed ? "opacity-70" : "opacity-100"}`}
     >
-      <span onClick={onComplete}>C</span>
-      <p>{text}</p>
-      <span onClick={onDelete}>X</span>
+      <span className=" mx-2 col-span-1" onClick={onComplete}>
+        <BiCheckCircle
+          className={`
+          text-2xl 
+          ${completed ? "text-quaternary" : "text-white"}`}
+        />
+      </span>
+      <p
+        className={`
+          col-span-5 truncate mx-1 
+          ${completed ? "line-through" : "no-underline"}
+          `}
+      >
+        {text}
+      </p>
+      <span className="" onClick={onDelete}>
+        <TiDelete className="text-2xl" />
+      </span>
     </li>
   );
 }

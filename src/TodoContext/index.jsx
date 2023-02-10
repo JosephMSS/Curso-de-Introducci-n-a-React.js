@@ -35,6 +35,7 @@ export function TodoProvider({ children }) {
     initialValue: [],
   });
   const [searchValue, setSearchValue] = useState("");
+  const [openModal, setOpenModal] = useState(false);
 
   const completedTodos = todos.filter((todo) => !!todo.completed).length;
   const totalTodos = todos.length;
@@ -74,6 +75,8 @@ export function TodoProvider({ children }) {
     searchedTodos,
     completeTodos,
     deleteTodos,
+    setOpenModal,
+    openModal,
   };
   return (
     <TodoContext.Provider value={valuesProvided}>

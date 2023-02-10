@@ -3,6 +3,7 @@ import { CreateTodoButton } from "../CreateTodoButtom";
 import { Modal } from "../Modal";
 import { TodoContext } from "../TodoContext";
 import { TodoCounter } from "../TodoCounter";
+import { TodoForm } from "../TodoForm";
 import { TodoItem } from "../TodoItem";
 import { TodoList } from "../TodoList";
 import { TodoSearch } from "../TodoSearch";
@@ -26,7 +27,9 @@ export function AppUI() {
       <TodoList>
         {error && <p className="text-red-600">{error.message}</p>}
         {loading && <p className="text-green-500">Cargando datos...</p>}
-        {todoListIsEmpty && <p>Crea tu primer Todo</p>}
+        {todoListIsEmpty && (
+          <p className="text-green-500">Crea tu primer Todo</p>
+        )}
         {searchedTodos.map((todo) => {
           return (
             <TodoItem
@@ -44,7 +47,11 @@ export function AppUI() {
           );
         })}
       </TodoList>
-      {!!openModal && <Modal>Modal</Modal>}
+      {!!openModal && (
+        <Modal>
+          <TodoForm />
+        </Modal>
+      )}
     </>
   );
 }
