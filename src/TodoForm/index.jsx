@@ -2,7 +2,7 @@ import { useContext, useState } from "react";
 import { Button } from "../Button/index.jsx";
 import { TodoContext } from "../TodoContext/index.jsx";
 export function TodoForm() {
-  const { setOpenModal, onCreate } = useContext(TodoContext);
+  const { setOpenModal, saveTodo } = useContext(TodoContext);
   const [title, setTitle] = useState("");
   const [text, setText] = useState("");
   const onDiscard = () => {
@@ -14,7 +14,7 @@ export function TodoForm() {
   };
   const onSubmit = (e) => {
     e.preventDefault();
-    onCreate(text, title);
+    saveTodo({ text, title });
     setOpenModal(false);
     resetForm();
   };

@@ -1,5 +1,6 @@
 import { TodoProvider } from "../TodoContext";
 import { AppUI } from "./AppUI";
+import { Container } from "./Container";
 
 function App() {
   /**
@@ -7,7 +8,9 @@ function App() {
    */
   return (
     <TodoProvider>
-      <AppUI />
+      <Container>
+        <AppUI />
+      </Container>
     </TodoProvider>
   );
 }

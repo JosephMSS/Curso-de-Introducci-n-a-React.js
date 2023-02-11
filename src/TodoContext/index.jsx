@@ -51,7 +51,25 @@ export function TodoProvider({ children }) {
       return todoText.includes(searchText);
     });
   }
-
+  const randomId = () => {
+    return (
+      Math.random().toString(36).substring(2, 15) +
+      Math.random().toString(36).substring(2, 15)
+    );
+  };
+  const createTodo = ({ text, completed = false }) => {
+    return {
+      id: randomId(),
+      text,
+      completed,
+    };
+  };
+  const saveTodo = ({ text }) => {
+    const todo = createTodo({ text });
+    const newTodos = [...todos];
+    newTodos.push(todo);
+    saveTodos(newTodos);
+  };
   const completeTodos = ({ id }) => {
     const todoIndex = todos.findIndex((todo) => todo.id === id);
     const newTodos = [...todos];
@@ -77,6 +95,7 @@ export function TodoProvider({ children }) {
     deleteTodos,
     setOpenModal,
     openModal,
+    saveTodo,
   };
   return (
     <TodoContext.Provider value={valuesProvided}>
