@@ -1,4 +1,4 @@
-import { createContext, useState } from "react";
+import { useState } from "react";
 import { useLocalStorage } from "./useLocalStorage";
 const randomId = () => {
   return (
@@ -19,12 +19,7 @@ const defaultTodoList = [
   createTodo({ text: "Dormir", completed: true }),
 ];
 
-export const TodoContext = createContext();
-/**
- * Son los valores que vamos a compartir con context
- */
-
-export function TodoProvider({ children }) {
+export function useTodos() {
   const {
     item: todos,
     saveItem: saveTodos,
@@ -97,9 +92,5 @@ export function TodoProvider({ children }) {
     openModal,
     saveTodo,
   };
-  return (
-    <TodoContext.Provider value={valuesProvided}>
-      {children}
-    </TodoContext.Provider>
-  );
+  return valuesProvided;
 }

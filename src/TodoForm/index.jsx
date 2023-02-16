@@ -1,8 +1,6 @@
 import { useContext, useState } from "react";
 import { Button } from "../Button/index.jsx";
-import { TodoContext } from "../TodoContext/index.jsx";
-export function TodoForm() {
-  const { setOpenModal, saveTodo } = useContext(TodoContext);
+export function TodoForm({ setOpenModal, saveTodo }) {
   const [title, setTitle] = useState("");
   const [text, setText] = useState("");
   const onDiscard = () => {
